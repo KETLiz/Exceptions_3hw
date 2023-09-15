@@ -1,9 +1,3 @@
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.Scanner;
 
 import Exceptions.AlphabetCountException;
@@ -48,7 +42,6 @@ public class Menu {
         
         try{
             telNumber = arr[4];
-            //int telephonNumber = Integer.parseInt(telNumber);
         } catch(NumberFormatException e) {
             System.out.println("Неправильно набран номер");
         }
@@ -58,19 +51,22 @@ public class Menu {
         } else {
             throw new GenderException("Введите f или m");
         }
-
-        Human human = new Human(name, surName, patronymic, birthDay, telNumber, gender);
         String fileName = surName;
+        String res = surName + " " + name + " " + patronymic + " " + birthDay + " " + telNumber + " " + gender;
+        WriteHumanToFile w = new WriteHumanToFile();
+        w.writeToFile(fileName, res);
+        ReadFromFile read = new ReadFromFile();
+        read.readFromFile(fileName);
+        // Human human = new Human(name, surName, patronymic, birthDay, telNumber, gender);
+        // String fileName = surName;
 
-        WriteToFile w = new WriteToFile();
-        w.writeToFile(human, fileName);
+        // WriteHumanToFile w = new WriteHumanToFile();
+        // w.writeHumanToFile(human, fileName);
 
-        ReadFromFile r = new ReadFromFile();
-        Human restoredHuman = r.load(fileName);
-        System.out.println(restoredHuman);
+        // ReadFromFile r = new ReadFromFile();
+        // Human restoredHuman = r.loadHuman(fileName);
+        // System.out.println(restoredHuman);
     }
-
-
 
     private String[] getInfo() {
         System.out.println("Введите следующие данные, разделённые пробелом: " +
@@ -84,12 +80,6 @@ public class Menu {
             System.out.println(e.getMessage());
         }
         return infoArr;
-        // try {
-        //     checkWordCountWithException(infoArr);
-        //     check.dataTypeCheck(infoArr);
-        // } catch (WordCountException | TelephonCountException | AlphabetCountException | GenderCountException e) {
-        //     System.out.println(e.getMessage());
-        // }
     }
 
     private void checkWordCountWithException(String[] arr) throws WordCountException{
