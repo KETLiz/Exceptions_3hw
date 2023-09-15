@@ -1,12 +1,14 @@
-public class Human {
+import java.io.Serializable;
+
+public class Human implements Serializable {
     private String name;
     private String surName;
     private String patronymic;
     private String birthDate;
-    private int telNumber;
-    private Gender gender;
+    private String telNumber;
+    private String gender;
 
-    public Human(String name, String surName, String patronymic, String birthDate, int telNumber, Gender gender) {
+    public Human(String name, String surName, String patronymic, String birthDate, String telNumber, String gender) {
         this.name = name;
         this.surName = surName;
         this.patronymic = patronymic;
@@ -31,11 +33,11 @@ public class Human {
         return birthDate;
     }
 
-    public int getTelNumber() {
+    public String getTelNumber() {
         return telNumber;
     }
 
-    public Gender getGender() {
+    public String getGender() {
         return gender;
     }
 

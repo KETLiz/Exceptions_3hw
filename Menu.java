@@ -1,3 +1,9 @@
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.Scanner;
 
 import Exceptions.AlphabetCountException;
@@ -17,34 +23,51 @@ public class Menu {
 
     public void parsingInfo() throws AlphabetCountException, TelephonCountException, DateException, GenderException {
         String[] arr = getInfo();
+        String surName  = null;
+        String name = null;
+        String patronymic = null;
+        String birthDay = null;
+        String telNumber = null;
+        String gender = null;
+
         for(int i = 0; i <= 2; i++) {
             if(check.isAtphabet(arr[i])) {
-                String surName = arr[0];
-                String name = arr[1];
-                String patronymic = arr[2];
+                surName = arr[0];
+                name = arr[1];
+                patronymic = arr[2];
             } else {
                 throw new AlphabetCountException("Вы ввели невалидные значения");
             }
         }
 
         if(check.isDate(arr[3])) {
-            String birthDay = arr[3];
+            birthDay = arr[3];
         } else {
             throw new DateException("Формат ввода даты роЖдения dd.mm.yyyy");
         }
         
         try{
-            String telNumber = arr[4];
-            int telephonNumber = Integer.parseInt(telNumber);
+            telNumber = arr[4];
+            //int telephonNumber = Integer.parseInt(telNumber);
         } catch(NumberFormatException e) {
             System.out.println("Неправильно набран номер");
         }
 
         if(check.isFMChar(arr[5])) {
-            char gender = arr[5].charAt(0);
+            gender = arr[5];
         } else {
             throw new GenderException("Введите f или m");
         }
+
+        Human human = new Human(name, surName, patronymic, birthDay, telNumber, gender);
+        String fileName = surName;
+
+        WriteToFile w = new WriteToFile();
+        w.writeToFile(human, fileName);
+
+        ReadFromFile r = new ReadFromFile();
+        Human restoredHuman = r.load(fileName);
+        System.out.println(restoredHuman);
     }
 
 
